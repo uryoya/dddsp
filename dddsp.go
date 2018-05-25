@@ -29,11 +29,10 @@ func main() {
 	http.HandleFunc("/bid", func(w http.ResponseWriter, r *http.Request) {
 		rc.Inc()
 		fmt.Println(rc)
-		// // 1/100 の確率でsleep
-		// if rand.Intn(100) == 1 {
-		// 	time.Sleep(1 * time.Second)
-		// }
-		time.Sleep(110 * time.Millisecond)
+		// 1/100 の確率でsleep
+		if rand.Intn(100) == 1 {
+			time.Sleep(200 * time.Millisecond)
+		}
 		price := rand.Intn(90) + 10 // 10 <= price < 100
 		fmt.Fprintf(w,
 			"{\"url\": \"http://%s/image/999\", \"price\": %d}",
