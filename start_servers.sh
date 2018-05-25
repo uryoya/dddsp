@@ -1,6 +1,16 @@
 #! /bin/bash
-python3 app.py 9001 'chino.org' > dsp1.log 2>&1 &
-python3 app.py 9002 'cocoa.com' > dsp2.log 2>&1 &
-python3 app.py 9003 'rize.com' > dsp3.log 2>&1 &
-python3 app.py 9004 'chia.co.jp' > dsp4.log 2>&1 &
-python3 app.py 9005 'sharo.net' > dsp5.log 2>&1 &
+
+n=10
+if [ $# -eq 1 ]; then
+    n=$1
+fi
+
+domains=("chino.org" "cocoa.com" "rize.com" "chia.co.jp" "sharo.net")
+
+for ((i=0; i < $n; i++)); do
+    port=$(expr 9000 + $i)
+    ./dddsp.out ":$port" ${domains[$(expr $i % 5)]} > log/dsp$i.log 2>&1 &
+    echo "Wake up server on $port. PID is $!"
+done
+
+echo "Started $n servers."
